@@ -14,6 +14,32 @@ import { TabsList } from "../ui/tabs"
 import { WithTooltip } from "../ui/with-tooltip"
 import { ProfileSettings } from "../utility/profile-settings"
 import { SidebarSwitchItem } from "./sidebar-switch-item"
+import { NavigationItem } from "./navigation/navigation-item"
+import { NavigationAction } from "./navigation/navigation-action"
+import { ScrollArea } from "@radix-ui/react-scroll-area"
+
+const servers = [
+  {
+    id: "1",
+    name: "Server 1",
+    imageUrl: "https://via.placeholder.com/40"
+  },
+  {
+    id: "2",
+    name: "Server 2",
+    imageUrl: "https://via.placeholder.com/40"
+  },
+  {
+    id: "3",
+    name: "Server 3",
+    imageUrl: "https://via.placeholder.com/40"
+  },
+  {
+    id: "4",
+    name: "Server 4",
+    imageUrl: "https://via.placeholder.com/40"
+  }
+]
 
 export const SIDEBAR_ICON_SIZE = 28
 
@@ -25,8 +51,8 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
   onContentTypeChange
 }) => {
   return (
-    <div className="flex flex-col justify-between border-r-2 pb-5">
-      <TabsList className="bg-background grid h-[440px] grid-rows-7">
+    <div className="flex flex-col border-r-2">
+      <TabsList className="bg-background grid h-[50%] min-h-[300px] overflow-auto grid-rows-7 ">
         <SidebarSwitchItem
           icon={<IconMessage size={SIDEBAR_ICON_SIZE} />}
           contentType="chats"
@@ -76,13 +102,31 @@ export const SidebarSwitcher: FC<SidebarSwitcherProps> = ({
         />
       </TabsList>
 
+      <hr />
+
+      <div className="mt-1 grow">
+        <div className="mb-5">
+          <NavigationAction />
+        </div>
+
+        <ScrollArea className="flex-1 w-full">
+          {servers.map(server => (
+            <div key={server.id} className="mb-4">
+              <NavigationItem
+                id={server.id}
+                name={server.name}
+                imageUrl={server.imageUrl}
+              />
+            </div>
+          ))}
+        </ScrollArea>
+      </div>
+
       <div className="flex flex-col items-center space-y-4">
         {/* TODO */}
         {/* <WithTooltip display={<div>Import</div>} trigger={<Import />} /> */}
-
         {/* TODO */}
         {/* <Alerts /> */}
-
         <WithTooltip
           display={<div>Profile Settings</div>}
           trigger={<ProfileSettings />}
